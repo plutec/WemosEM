@@ -110,12 +110,17 @@ void em_loop() {
 
   blynk_loop();
   thinkgSpeak_loop();
-
+  
+  if (WiFi.status() != WL_CONNECTED) {
+      // Attempt to connect
+      setupWifi();
+  }
+  
   if (!mqtt_enabled) {
     return;
   }
-
-      // Check if we're still connected to MQTT broker
+  
+  // Check if we're still connected to MQTT broker
   if (!mqtt_client.connected()) {
     // reconnect if not
     mqtt_reconnect();
